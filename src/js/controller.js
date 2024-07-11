@@ -1,35 +1,25 @@
-const recipeContainer = document.querySelector('.recipe');
-
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  });
-};
+import * as model from './model';
+import * as view from '../js/views/recipeView';
+import recipeView from '../js/views/recipeView';
+import spinner from './views/spinner';
 
 const showRecipe = async function () {
   try {
-    const response = await fetch(
-      'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886'
-    );
-    const data = await response.json();
-    if(!response.ok) throw new Error(`${data.message}`)
-   let {recipe} =data.data;
-       recipe ={
-          id:recipe.id,
-          title:recipe.title,
-          publisher:recipe.publisher,
-          sourceUrl :recipe.source_url,
-          image:recipe.image_url,
-          servings:recipe.servings,
-          cookingTime:recipe.cooking_time,
-          ingredients:recipe.ingredients
-       }
-       console.log(recipe)
-  } catch (err) {
-    throw err;
+    const id = window.location.hash.slice(1);
+    if (!id) return;
+    const parent = document.querySelector('.recipe');
+    spinner.renderSpinner(parent);
+    await model.loadRecipe(id);
+    const recipe = new recipeView(model.state.recipe);
+    recipe.renderRecipe();
+  } catch (Error) {
+    throw Error;
   }
+  // recipe.removeSpinner()
 };
-showRecipe()
-///////////////////////////////////////
+
+//////////////////////////////////////
+const ev = ['load', 'hashchange'];
+ev.forEach(ev => {
+  window.addEventListener(ev, showRecipe);
+});
