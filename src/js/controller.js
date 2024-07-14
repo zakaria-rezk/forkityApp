@@ -5,21 +5,25 @@ import spinner from './views/spinner';
 
 const showRecipe = async function () {
   try {
+    
     const id = window.location.hash.slice(1);
     if (!id) return;
     const parent = document.querySelector('.recipe');
     spinner.renderSpinner(parent);
     await model.loadRecipe(id);
-    const recipe = new recipeView(model.state.recipe);
-    recipe.renderRecipe();
+    recipeView.render(model.state.recipe)
+    recipeView.renderRecipe()
+   
   } catch (Error) {
+    recipeView.renderError()
     throw Error;
   }
   // recipe.removeSpinner()
 };
-
+const init = function(){
+  recipeView.handleRender(showRecipe)
+}
+init();
+console.log("render")
 //////////////////////////////////////
-const ev = ['load', 'hashchange'];
-ev.forEach(ev => {
-  window.addEventListener(ev, showRecipe);
-});
+

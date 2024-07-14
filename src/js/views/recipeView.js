@@ -1,30 +1,49 @@
 class recipeView {
   #parentContaine = document.querySelector('.recipe');
   #data;
-  constructor(data) {
+  render=(data)=> {
     this.#data = data;
+    this.renderRecipe();
+ 
   }
-   spinner = function () {
-    const span = `<div class="spinner">
+  spinner = function () {
+    const markup = `<div class="spinner">
             <svg>
               <use href="src/img/icons.svg#icon-loader"></use>
             </svg>
           </div> -->`;
     this.#parentContaine.innerHTML = '';
-    this.#parentContaine.insertAdjacentHTML('afterbegin', span);
+    this.#parentContaine.insertAdjacentHTML('afterbegin', markup);
   };
-
+ renderError=()=>{
+  const markup =`<div class="error">
+            <div>
+              <svg>
+                <use href="src/img/icons.svg#icon-alert-triangle"></use>
+              </svg>
+            </div>
+            <p>No recipes found for your query. Please try again!</p>
+          </div> -->`
+          this.#parentContaine.innerHTML = '';
+          this.#parentContaine.insertAdjacentHTML('afterbegin', markup);
+ }
   renderRecipe = () => {
     this.#parentContaine.innerHTML = '';
     const markup = this.generateMarkup();
 
     this.#parentContaine.insertAdjacentHTML('afterbegin', markup);
-    
-    
   };
+  handleRender(handle) {
+    console.log("haschange")
+    const ev = ['load', 'hashchange'];
+    ev.forEach(ev => {
+      window.addEventListener(ev, handle);
+    });
+  }
   generateMarkup() {
-    console.log(this.#data.ingredients)
-    const ingredientsMarkup = this.#data.ingredients.map(ing => {
+   
+    const ingredientsMarkup = this.#data.ingredients
+      .map(ing => {
         return `
         <li class="recipe__ingredient">
           <svg class="recipe__icon">
@@ -122,4 +141,4 @@ class recipeView {
   }
 }
 
-export default recipeView;
+export default new recipeView();
