@@ -1,5 +1,5 @@
 class recipeView {
-  #parentContaine = document.querySelector('.recipe');
+  #parentContainer = document.querySelector('.recipe');
   #data;
   render=(data)=> {
     this.#data = data;
@@ -12,8 +12,8 @@ class recipeView {
               <use href="src/img/icons.svg#icon-loader"></use>
             </svg>
           </div> -->`;
-    this.#parentContaine.innerHTML = '';
-    this.#parentContaine.insertAdjacentHTML('afterbegin', markup);
+    this.#parentContainer.innerHTML = '';
+    this.#parentContainer.insertAdjacentHTML('afterbegin', markup);
   };
  renderError=()=>{
   const markup =`<div class="error">
@@ -24,14 +24,23 @@ class recipeView {
             </div>
             <p>No recipes found for your query. Please try again!</p>
           </div> -->`
-          this.#parentContaine.innerHTML = '';
-          this.#parentContaine.insertAdjacentHTML('afterbegin', markup);
+          this.#parentContainer.innerHTML = '';
+          this.#parentContainer.insertAdjacentHTML('afterbegin', markup);
  }
+ renderSpinner = function () {
+  const span = `<div class="spinner">
+      <svg>
+        <use href="src/img/icons.svg#icon-loader"></use>
+      </svg>
+    </div> -->`;
+  this.#parentContainer.innerHTML = '';
+  this.#parentContainer.insertAdjacentHTML('afterbegin', span);
+};
   renderRecipe = () => {
-    this.#parentContaine.innerHTML = '';
+    this.#parentContainer.innerHTML = '';
     const markup = this.generateMarkup();
 
-    this.#parentContaine.insertAdjacentHTML('afterbegin', markup);
+    this.#parentContainer.insertAdjacentHTML('afterbegin', markup);
   };
   handleRender(handle) {
     console.log("haschange")
