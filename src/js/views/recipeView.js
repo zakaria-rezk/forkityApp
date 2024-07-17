@@ -1,19 +1,16 @@
-class recipeView {
-  #parentContainer = document.querySelector('.recipe');
-  #data;
-  render=(data)=> {
-    this.#data = data;
-    this.renderRecipe();
- 
-  }
+import { view } from "./view";
+class recipeView extends view {
+  _parentContainer = document.querySelector('.recipe');
+  _data;
+
   spinner = function () {
     const markup = `<div class="spinner">
             <svg>
               <use href="src/img/icons.svg#icon-loader"></use>
             </svg>
           </div> -->`;
-    this.#parentContainer.innerHTML = '';
-    this.#parentContainer.insertAdjacentHTML('afterbegin', markup);
+    this._parentContainer.innerHTML = '';
+    this._parentContainer.insertAdjacentHTML('afterbegin', markup);
   };
  renderError=()=>{
   const markup =`<div class="error">
@@ -24,8 +21,8 @@ class recipeView {
             </div>
             <p>No recipes found for your query. Please try again!</p>
           </div> -->`
-          this.#parentContainer.innerHTML = '';
-          this.#parentContainer.insertAdjacentHTML('afterbegin', markup);
+          this._parentContainer.innerHTML = '';
+          this._parentContainer.insertAdjacentHTML('afterbegin', markup);
  }
  renderSpinner = function () {
   const span = `<div class="spinner">
@@ -33,17 +30,12 @@ class recipeView {
         <use href="src/img/icons.svg#icon-loader"></use>
       </svg>
     </div> -->`;
-  this.#parentContainer.innerHTML = '';
-  this.#parentContainer.insertAdjacentHTML('afterbegin', span);
+  this._parentContainer.innerHTML = '';
+  this._parentContainer.insertAdjacentHTML('afterbegin', span);
 };
-  renderRecipe = () => {
-    this.#parentContainer.innerHTML = '';
-    const markup = this.generateMarkup();
 
-    this.#parentContainer.insertAdjacentHTML('afterbegin', markup);
-  };
   handleRender(handle) {
-    console.log("haschange")
+   
     const ev = ['load', 'hashchange'];
     ev.forEach(ev => {
       window.addEventListener(ev, handle);
@@ -51,7 +43,7 @@ class recipeView {
   }
   generateMarkup() {
    
-    const ingredientsMarkup = this.#data.ingredients
+    const ingredientsMarkup = this._data.ingredients
       .map(ing => {
         return `
         <li class="recipe__ingredient">
@@ -69,11 +61,11 @@ class recipeView {
 
     return `
       <figure class="recipe__fig">
-        <img src="${this.#data.image}" alt="${
-      this.#data.title
+        <img src="${this._data.image}" alt="${
+      this._data.title
     }" class="recipe__img" />
         <h1 class="recipe__title">
-          <span>${this.#data.title}</span>
+          <span>${this._data.title}</span>
         </h1>
       </figure>
 
@@ -82,8 +74,8 @@ class recipeView {
           <svg class="recipe__info-icon">
             <use href="src/img/icons.svg#icon-clock"></use>
           </svg>
-          <span class="recipe__info-data recipe__info-data--minutes">${
-            this.#data.cookingTime
+          <span class="recipe__info_data recipe__info_data--minutes">${
+            this._data.cookingTime
           }</span>
           <span class="recipe__info-text">minutes</span>
         </div>
@@ -91,8 +83,8 @@ class recipeView {
           <svg class="recipe__info-icon">
             <use href="src/img/icons.svg#icon-users"></use>
           </svg>
-          <span class="recipe__info-data recipe__info-data--people">${
-            this.#data.servings
+          <span class="recipe__info_data recipe__info_data--people">${
+            this._data.servings
           }</span>
           <span class="recipe__info-text">servings</span>
 
@@ -134,12 +126,12 @@ class recipeView {
         <p class="recipe__directions-text">
           This recipe was carefully designed and tested by
           <span class="recipe__publisher">${
-            this.#data.publisher
+            this._data.publisher
           }</span>. Please check out
           directions at their website.
         </p>
         <a class="btn--small recipe__btn" href="${
-          this.#data.sourceUrl
+          this._data.sourceUrl
         }" target="_blank">
           <span>Directions</span>
           <svg class="search__icon">

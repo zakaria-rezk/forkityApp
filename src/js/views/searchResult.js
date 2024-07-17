@@ -1,21 +1,43 @@
 import { view } from "./view";
 
 class searchRecpies extends view {
-  #parentEl = document.querySelector('.search');
-  #data
+  _parentContainer = document.querySelector('.results');
+  _btn=document.querySelector('.search');
+  _data
   getQuery() {
     
-    const query= '?search=' + this.#parentEl.querySelector('.search__field').value;
+    const query= '?search=' + this._btn.querySelector('.search__field').value;
+    
     this.#clearInput();
     return query;
   }
   #clearInput(){
-    this.#parentEl.querySelector('.search__field').value =''
+    this._btn.querySelector('.search__field').value =''
   }
+  spinner = function () {
+    const markup = `<div class="spinner">
+            <svg>
+              <use href="src/img/icons.svg#icon-loader"></use>
+            </svg>
+          </div> -->`;
+    this._parentContainer.innerHTML = '';
+    this._parentContainer.insertAdjacentHTML('afterbegin', markup);
+  };
+  renderError=()=>{
+   
+    const markup =`<div class="error">
+              <div>
+                <svg>
+                  <use href="src/img/icons.svg#icon-alert-triangle"></use>
+                </svg>
+              </div>
+              <p>No recipes found for your query. Please try again!</p>
+            </div> -->`
+            this._parentContainer.innerHTML = '';
+            this._parentContainer.insertAdjacentHTML('afterbegin', markup);
+   }
   handelSearch(handle){
-    
-    
-    this.#parentEl.addEventListener('submit',function(e){
+    this._btn.addEventListener('submit',function(e){
       console.log("handelsearch")
       e.preventDefault();
       handle();
@@ -23,24 +45,24 @@ class searchRecpies extends view {
     })
   }
   generateMarkup(){
-    console.log(this.#data)
-    // this.#data.map(` <li class="preview">
-    //         <a class="preview__link preview__link--active" href="#23456">
-    //           <figure class="preview__fig">
-    //             <img src="src/img/test-1.jpg" alt="Test" />
-    //           </figure>
-    //           <div class="preview__data">
-    //             <h4 class="preview__title">Pasta with Tomato Cream ...</h4>
-    //             <p class="preview__publisher">The Pioneer Woman</p>
-    //             <div class="preview__user-generated">
-    //               <svg>
-    //                 <use href="src/img/icons.svg#icon-user"></use>
-    //               </svg>
-    //             </div>
-    //           </div>
-    //         </a>
-    //       </li>`).join
-
+   const markup= this._data.map(rec => {return `<li class="preview">
+            <a class="preview__link preview__link--active" href="#${rec.id}">
+              <figure class="preview__fig">
+                <img src="${rec.image_url}" alt="Test" />
+              </figure>
+              <div class="preview__data">
+                <h4 class="preview__title">${rec.title}</h4>
+                <p class="preview__publisher">${rec.publisher}</p>
+                <div class="preview__user-generated">
+                  <svg>
+                    <use href="src/img/icons.svg#icon-user"></use>
+                  </svg>
+                </div>
+              </div>
+            </a>
+          </li>`}).join('')
+      
+ return markup;
   }
 }
 export default new searchRecpies;

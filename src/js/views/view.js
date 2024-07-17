@@ -1,9 +1,7 @@
 export class view{
-    _parentContaine = document.querySelector('.recipe');
-    _data;
     render=(data)=> {
       this._data = data;
-      this.renderRecipe();
+      this.renderMarkup();
     }
    renderError=()=>{
     const markup =`<div class="error">
@@ -14,13 +12,13 @@ export class view{
               </div>
               <p>No recipes found for your query. Please try again!</p>
             </div> -->`
-            this._parentContaine.innerHTML = '';
-            this._parentContaine.insertAdjacentHTML('afterbegin', markup);
+            this._parentContainer.innerHTML = '';
+            this._parentContainer.insertAdjacentHTML('afterbegin', markup);
    }
-    renderRecipe = () => {
-      this._parentContaine.innerHTML = '';
+    renderMarkup = () => {
+      this._parentContainer.innerHTML = '';
       const markup = this.generateMarkup();
   
-      this._parentContaine.insertAdjacentHTML('afterbegin', markup);
+      this._parentContainer.insertAdjacentHTML('afterbegin', markup);
     };
 }
