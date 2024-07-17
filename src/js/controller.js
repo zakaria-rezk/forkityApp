@@ -31,6 +31,7 @@ const makeSearch = async function () {
     searchResult.render(seaarchResPage(model.state.searchResult.pageNum))
     //render pagination button
     paginationView.render(model.state.searchResult)
+    recipeView.handelSurving(controlSurvings)
     
 
   } catch (Error) {
@@ -46,8 +47,19 @@ const controlPagination =function(pageToGo){
   searchResult.render(seaarchResPage(model.state.searchResult.pageNum));
   paginationView.render(model.state.searchResult)
 }
+// 
+const controlSurvings =function(num){
+  console.log("controlSurvings")
+  if(num==1){
+    console.log("increase")
+  }  
+  else{
+    console.log("descrease")
+  }
+}
 const init = function () {
   recipeView.handleRender(showRecipe);
+  
   searchResult.handelSearch(makeSearch);
   paginationView.handerPagination(controlPagination)
 };

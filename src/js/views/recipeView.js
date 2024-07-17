@@ -1,8 +1,18 @@
-import { view } from "./view";
+import { view } from './view';
 class recipeView extends view {
   _parentContainer = document.querySelector('.recipe');
   _data;
-
+  handelSurving = function (handel) {
+    this._parentContainer.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--tiny');
+      if (!btn) return;
+      const operationNUM = +btn.dataset.num;
+      console.log(operationNUM)
+      handel(operationNUM);
+    });
+   
+   
+  };
   spinner = function () {
     const markup = `<div class="spinner">
             <svg>
@@ -12,37 +22,35 @@ class recipeView extends view {
     this._parentContainer.innerHTML = '';
     this._parentContainer.insertAdjacentHTML('afterbegin', markup);
   };
- renderError=()=>{
-  const markup =`<div class="error">
+  renderError = () => {
+    const markup = `<div class="error">
             <div>
               <svg>
                 <use href="src/img/icons.svg#icon-alert-triangle"></use>
               </svg>
             </div>
             <p>No recipes found for your query. Please try again!</p>
-          </div> -->`
-          this._parentContainer.innerHTML = '';
-          this._parentContainer.insertAdjacentHTML('afterbegin', markup);
- }
- renderSpinner = function () {
-  const span = `<div class="spinner">
+          </div> -->`;
+    this._parentContainer.innerHTML = '';
+    this._parentContainer.insertAdjacentHTML('afterbegin', markup);
+  };
+  renderSpinner = function () {
+    const span = `<div class="spinner">
       <svg>
         <use href="src/img/icons.svg#icon-loader"></use>
       </svg>
     </div> -->`;
-  this._parentContainer.innerHTML = '';
-  this._parentContainer.insertAdjacentHTML('afterbegin', span);
-};
+    this._parentContainer.innerHTML = '';
+    this._parentContainer.insertAdjacentHTML('afterbegin', span);
+  };
 
   handleRender(handle) {
-   
     const ev = ['load', 'hashchange'];
     ev.forEach(ev => {
       window.addEventListener(ev, handle);
     });
   }
   generateMarkup() {
-   
     const ingredientsMarkup = this._data.ingredients
       .map(ing => {
         return `
@@ -61,9 +69,7 @@ class recipeView extends view {
 
     return `
       <figure class="recipe__fig">
-        <img src="${this._data.image}" alt="${
-      this._data.title
-    }" class="recipe__img" />
+        <img src="${this._data.image}" alt="${this._data.title}" class="recipe__img" />
         <h1 class="recipe__title">
           <span>${this._data.title}</span>
         </h1>
@@ -74,27 +80,23 @@ class recipeView extends view {
           <svg class="recipe__info-icon">
             <use href="src/img/icons.svg#icon-clock"></use>
           </svg>
-          <span class="recipe__info_data recipe__info_data--minutes">${
-            this._data.cookingTime
-          }</span>
+          <span class="recipe__info_data recipe__info_data--minutes">${this._data.cookingTime}</span>
           <span class="recipe__info-text">minutes</span>
         </div>
         <div class="recipe__info">
           <svg class="recipe__info-icon">
             <use href="src/img/icons.svg#icon-users"></use>
           </svg>
-          <span class="recipe__info_data recipe__info_data--people">${
-            this._data.servings
-          }</span>
+          <span class="recipe__info_data recipe__info_data--people">${this._data.servings}</span>
           <span class="recipe__info-text">servings</span>
 
           <div class="recipe__info-buttons">
-            <button class="btn--tiny btn--increase-servings">
+            <button data-num="-1" class="btn--tiny btn--increase-servings">
               <svg>
                 <use href="src/img/icons.svg#icon-minus-circle"></use>
               </svg>
             </button>
-            <button class="btn--tiny btn--increase-servings">
+            <button data-num="1" class="btn--tiny btn--increase-servings">
               <svg>
                 <use href="src/img/icons.svg#icon-plus-circle"></use>
               </svg>
@@ -125,14 +127,10 @@ class recipeView extends view {
         <h2 class="heading--2">How to cook it</h2>
         <p class="recipe__directions-text">
           This recipe was carefully designed and tested by
-          <span class="recipe__publisher">${
-            this._data.publisher
-          }</span>. Please check out
+          <span class="recipe__publisher">${this._data.publisher}</span>. Please check out
           directions at their website.
         </p>
-        <a class="btn--small recipe__btn" href="${
-          this._data.sourceUrl
-        }" target="_blank">
+        <a class="btn--small recipe__btn" href="${this._data.sourceUrl}" target="_blank">
           <span>Directions</span>
           <svg class="search__icon">
             <use href="src/img/icons.svg#icon-arrow-right"></use>
